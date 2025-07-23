@@ -7,13 +7,11 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            /* Dark background inspired by the image */
-            background-color: #1a1a2e; /* Dark purple/blue tint */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23282a4d' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 0h30v30H0V0zm30 30h30v30H30V30z'/%3E%3C/g%3E%3C/svg%3E"); /* Subtle pattern */
-            color: #e0e7ff; /* Light text for dark background */
+            background: linear-gradient(to bottom right, #e0f2fe, #d9e2fb); /* Light blue to very light purple gradient */
+            color: #2d3748;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
@@ -24,16 +22,16 @@
             flex-grow: 1;
         }
         .card {
-            background-color: #2e2e4a; /* Slightly lighter dark for cards */
+            background-color: #ffffff;
             border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* Deeper shadow for cards */
-            border: 1px solid #4a4a75; /* Subtle border */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly more pronounced shadow */
+            border: 1px solid #e2e8f0;
         }
         .jumbled-statement {
             cursor: grab;
-            background-color: #3f3f7e; /* Darker blue/purple for statements */
-            color: #c7d2fe; /* Lighter text on statements */
-            border: 1px solid #6366f1; /* Accent border */
+            background-color: #ecf3fe; /* Lightest blue */
+            color: #1e3a8a; /* Darker blue text */
+            border: 1px solid #bfdbfe; /* Lighter blue border */
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             font-weight: 500;
@@ -43,19 +41,18 @@
             touch-action: none; /* For touch devices */
         }
         .jumbled-statement:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-            background-color: #4a4a90; /* Slightly lighter on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
         .jumbled-statement:active {
             cursor: grabbing;
             transform: translateY(0); /* Reset transform on active drag */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .jumbled-statement.dragged {
-            opacity: 0.6;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            transform: scale(1.03); /* Slightly scale up when dragging */
+            opacity: 0.5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02); /* Slightly scale up when dragging */
         }
         .jumbled-statement.placed {
             opacity: 0.8; /* Slightly faded when placed */
@@ -64,20 +61,20 @@
         }
         /* Styles applied after evaluation */
         .jumbled-statement.correct {
-            background-color: #059669; /* Emerald-600 */
-            border-color: #10b981; /* Emerald-500 */
-            color: #d1fae5; /* Green-100 */
+            background-color: #d1fae5; /* green-100 */
+            border-color: #38a169; /* green-600 */
+            color: #10b981; /* green-500 */
         }
         .jumbled-statement.incorrect {
-            background-color: #dc2626; /* Red-600 */
-            border-color: #ef4444; /* Red-500 */
-            color: #fee2e2; /* Red-100 */
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+            color: #ef4444; /* red-500 */
         }
 
         .drop-zone-element {
             min-height: 120px; /* Min height for each drop zone */
-            border: 2px dashed #6b7280; /* Gray-500 dashed border */
-            background-color: #2a2a47; /* Darker background for drop zones */
+            border: 2px dashed #9ca3af; /* gray-400 */
+            background-color: #f9fafb; /* gray-50 */
             border-radius: 0.75rem; /* Consistent with cards */
             padding: 1rem;
             margin-bottom: 1rem;
@@ -90,15 +87,15 @@
             position: relative; /* For placeholder */
         }
         .drop-zone-element.active {
-            border-color: #a855f7; /* Vibrant purple accent */
-            background-color: #4a4a90; /* Lighter purple on active */
+            border-color: #4c51bf; /* indigo-700 */
+            background-color: #e0e7ff; /* indigo-100 */
         }
         .drop-zone-placeholder {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #9ca3af; /* Gray-400 */
+            color: #94a3b8; /* gray-400 */
             font-style: italic;
         }
 
@@ -107,28 +104,27 @@
             border-radius: 0.5rem;
             font-weight: 600;
             transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Standard button shadow */
-            letter-spacing: 0.025em; /* Slightly wider text */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Standard button shadow */
         }
         .btn:hover {
             opacity: 0.95;
-            transform: translateY(-2px) scale(1.02); /* Lift and slight scale on hover */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+            transform: translateY(-2px); /* Lift slightly on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
         }
         .btn:active {
             transform: translateY(0); /* Reset on click */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .btn-primary {
-            background-color: #a855f7; /* Vibrant purple */
+            background-color: #6366f1; /* Indigo-500 for a vibrant primary */
             color: white;
         }
         .btn-secondary {
-            background-color: #4a4a75; /* Darker secondary */
-            color: #e0e7ff; /* Light text */
+            background-color: #cbd5e0; /* gray-300 */
+            color: #4a5568; /* gray-700 */
         }
         .btn-success {
-            background-color: #10b981; /* Green-500 */
+            background-color: #10b981; /* green-500 */
             color: white;
         }
         .feedback-message {
@@ -137,22 +133,21 @@
             margin-top: 1rem;
             font-weight: 600;
             border: 1px solid;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         .feedback-success {
             background-color: #d1fae5;
-            color: #059669; /* Darker green for text */
+            color: #10b981;
             border-color: #38a169;
         }
         .feedback-warning {
-            background-color: #fffbeb;
-            color: #d97706; /* Darker orange for text */
-            border-color: #f59e0b;
+            background-color: #ffedd5;
+            color: #ea580c;
+            border-color: #f97316;
         }
         .feedback-error {
             background-color: #fee2e2;
-            color: #dc2626; /* Darker red for text */
-            border-color: #ef4444;
+            color: #ef4444;
+            border-color: #dc2626;
         }
         .modal {
             display: none; /* Hidden by default */
@@ -163,21 +158,20 @@
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.7); /* Darker, more opaque overlay */
+            background-color: rgba(0,0,0,0.5); /* Black w/ more opacity */
             justify-content: center;
             align-items: center;
             animation: fadeIn 0.3s ease-out; /* Fade in animation */
         }
         .modal-content {
-            background-color: #2e2e4a; /* Dark background for modals */
-            color: #e0e7ff; /* Light text */
+            background-color: #fefefe;
             margin: auto;
             padding: 2.5rem;
             border-radius: 1rem; /* More rounded */
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5); /* Stronger, deeper shadow */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Stronger shadow */
             width: 90%;
             max-width: 700px;
-            border: 1px solid #4a4a75; /* Subtle border */
+            color: #2d3748;
             animation: scaleIn 0.3s ease-out; /* Scale in animation */
         }
         @keyframes fadeIn {
@@ -185,7 +179,7 @@
             to { opacity: 1; }
         }
         @keyframes scaleIn {
-            from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
         .modal-content { /* Adjust for new scaleIn animation transform */
@@ -195,7 +189,7 @@
             transform: translate(-50%, -50%);
         }
         .close-button {
-            color: #a855f7; /* Vibrant purple for close button */
+            color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -203,7 +197,7 @@
         }
         .close-button:hover,
         .close-button:focus {
-            color: #c7d2fe; /* Lighter on hover */
+            color: #666;
             text-decoration: none;
             cursor: pointer;
         }
@@ -211,24 +205,25 @@
 </head>
 <body class="p-6">
     <div class="container mx-auto py-8 flex flex-col items-center">
-        <h1 class="text-4xl font-extrabold text-center text-purple-400 mb-6 drop-shadow-lg">Prompt Element Sorter</h1>
-        <p class="text-center text-gray-300 mb-8 max-w-3xl">Drag the prompt statements from the right into their correct "Prompt Element" categories on the left. Build a complete and effective prompt!</p>
+        <h1 class="text-4xl font-bold text-center text-indigo-800 mb-6">Prompt Element Sorter</h1>
+        <p class="text-center text-gray-700 mb-8 max-w-3xl">Drag the prompt statements from the right into their correct "Prompt Element" categories on the left. Build a complete and effective prompt!</p>
 
         <!-- Game Info / Status Bar -->
-        <div class="w-full card p-4 mb-8 flex justify-around items-center text-lg font-semibold bg-indigo-900 border-indigo-700">
-            <span id="round-display" class="text-indigo-300 text-xl font-bold">Scenario 1</span>
+        <div class="w-full card p-4 mb-8 flex justify-around items-center text-lg font-semibold bg-indigo-50 border-indigo-200">
+            <span id="round-display" class="text-indigo-700 text-xl font-bold">Scenario 1</span>
             <div class="flex items-center gap-2">
-                <span class="text-gray-400">❤️ Lives:</span>
-                <span id="lives-display" class="text-red-400 font-extrabold text-2xl">3</span>
+                <span class="text-gray-600">❤️ Lives:</span>
+                <span id="lives-display" class="text-red-600 font-extrabold text-2xl">3</span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-gray-400">⏰ Time:</span>
-                <span id="timer-display" class="text-yellow-400 font-extrabold text-2xl">00:00</span>
+                <span class="text-gray-600">⏰ Time:</span>
+                <span id="timer-display" class="text-red-600 font-extrabold text-2xl">00:00</span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-gray-400">🏆 Score:</span>
-                <span id="score-display" class="text-green-400 font-extrabold text-2xl">0</span>
+                <span class="text-gray-600">🏆 Score:</span>
+                <span id="score-display" class="text-green-600 font-extrabold text-2xl">0</span>
             </div>
+            <!-- High Score removed -->
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full flex-grow">
@@ -240,35 +235,21 @@
             <!-- Right Column: Scenario & Jumbled Statements -->
             <div class="lg:col-span-1 flex flex-col gap-6">
                 <div class="card p-6">
-                    <h2 class="text-2xl font-semibold mb-3 text-purple-400">Current Scenario</h2>
-                    <p id="scenario-text" class="text-gray-200 mb-2"></p>
-                    <p id="task-prompt-text" class="text-gray-400 text-sm italic"></p>
+                    <h2 class="text-2xl font-semibold mb-3 text-indigo-700">Current Scenario</h2>
+                    <p id="scenario-text" class="text-gray-800 mb-2"></p>
+                    <p id="task-prompt-text" class="text-gray-600 text-sm italic"></p>
                 </div>
 
                 <div class="card p-6 flex flex-col items-center flex-grow">
-                    <h2 class="text-2xl font-semibold mb-4 text-purple-400">Jumbled Prompt Statements</h2>
-                    <div id="jumbled-statements-container" class="flex flex-col items-center w-full max-h-96 overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: #6366f1 #2e2e4a;">
-                        <!-- Custom Scrollbar for Webkit -->
-                        <style>
-                            #jumbled-statements-container::-webkit-scrollbar {
-                                width: 8px;
-                            }
-                            #jumbled-statements-container::-webkit-scrollbar-track {
-                                background: #2e2e4a;
-                                border-radius: 10px;
-                            }
-                            #jumbled-statements-container::-webkit-scrollbar-thumb {
-                                background-color: #6366f1;
-                                border-radius: 10px;
-                                border: 2px solid #2e2e4a;
-                            }
-                        </style>
+                    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Jumbled Prompt Statements</h2>
+                    <div id="jumbled-statements-container" class="flex flex-col items-center w-full max-h-96 overflow-y-auto pr-2">
                         <!-- Jumbled statements will be injected here by JS -->
                     </div>
                 </div>
 
                 <div class="flex justify-center gap-4 mt-4">
                     <button id="check-prompt-btn" class="btn btn-primary">Check Prompt!</button>
+                    <!-- <button id="next-scenario-btn" class="btn btn-secondary hidden">Next Scenario</button> -->
                 </div>
             </div>
         </div>
@@ -278,9 +259,9 @@
     <div id="debrief-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="close-debrief-modal">&times;</span>
-            <h2 class="text-3xl font-bold text-purple-400 mb-4">Round Results!</h2>
-            <h3 class="text-xl font-semibold mb-3 text-gray-300">Score: <span id="modal-round-score" class="text-green-400"></span> points</h3>
-            <div id="debrief-feedback-content" class="mb-6 text-gray-300 space-y-3">
+            <h2 class="text-3xl font-bold text-indigo-800 mb-4">Round Results!</h2>
+            <h3 class="text-xl font-semibold mb-3 text-gray-700">Score: <span id="modal-round-score" class="text-green-600"></span> points</h3>
+            <div id="debrief-feedback-content" class="mb-6 text-gray-700 space-y-3">
                 <!-- Feedback on correct/incorrect/missed will go here -->
             </div>
             <div class="flex justify-end mt-4">
@@ -292,8 +273,9 @@
     <!-- Game Over Modal -->
     <div id="game-over-modal" class="modal">
         <div class="modal-content text-center">
-            <h2 class="text-4xl font-bold text-purple-400 mb-4" id="game-over-title">Game Over!</h2>
-            <p class="text-xl text-gray-300 mb-2">Your Final Score: <span id="final-score" class="text-green-400 font-bold">0</span></p>
+            <h2 class="text-4xl font-bold text-indigo-800 mb-4" id="game-over-title">Game Over!</h2>
+            <p class="text-xl text-gray-700 mb-2">Your Final Score: <span id="final-score" class="text-green-600 font-bold">0</span></p>
+            <!-- High Score display removed from Game Over Modal -->
             <div class="flex justify-center mt-6">
                 <button id="restart-game-btn" class="btn btn-primary px-6 py-3 text-xl">Play Again!</button>
             </div>
@@ -363,6 +345,7 @@
         let currentScenarioIndex = -1;
         let totalScore = 0;
         let currentLives = 3; // Starting lives
+        // Removed: let highScore = parseInt(localStorage.getItem('promptSorterHighScore') || '0', 10);
 
         let timerId;
         let timeRemaining;
@@ -375,6 +358,7 @@
         const timerDisplay = document.getElementById('timer-display');
         const scoreDisplay = document.getElementById('score-display');
         const livesDisplay = document.getElementById('lives-display');
+        // Removed: const highScoreDisplay = document.getElementById('high-score-display');
         const roundDisplay = document.getElementById('round-display');
         const checkPromptBtn = document.getElementById('check-prompt-btn');
 
@@ -389,6 +373,7 @@
         const gameOverModal = document.getElementById('game-over-modal');
         const gameOverTitle = document.getElementById('game-over-title');
         const finalScoreDisplay = document.getElementById('final-score');
+        // Removed: const gameOverHighScoreDisplay = document.getElementById('game-over-high-score');
         const restartGameBtn = document.getElementById('restart-game-btn');
 
 
@@ -431,8 +416,8 @@
                 div.className = 'drop-zone-element card p-4';
                 div.setAttribute('data-element-id', element.id); // Custom attribute for element ID
                 div.innerHTML = `
-                    <h4 class="font-bold text-indigo-300 text-lg mb-2">${element.name}</h4>
-                    <p class="drop-zone-placeholder text-sm text-gray-400">${element.placeholder}</p>
+                    <h4 class="font-bold text-indigo-800 text-lg mb-2">${element.name}</h4>
+                    <p class="drop-zone-placeholder text-sm">${element.placeholder}</p>
                 `;
                 promptElementDropzones.appendChild(div);
             });
@@ -457,19 +442,15 @@
 
         function updateScoreDisplay() {
             scoreDisplay.textContent = totalScore;
+            // Removed: highScoreDisplay.textContent = highScore;
         }
 
         function updateLivesDisplay() {
             livesDisplay.textContent = currentLives;
             if (currentLives <= 1) {
-                livesDisplay.classList.add('text-red-400');
-                livesDisplay.classList.remove('text-green-400', 'text-yellow-400');
-            } else if (currentLives === 2) {
-                livesDisplay.classList.add('text-yellow-400');
-                livesDisplay.classList.remove('text-red-400', 'text-green-400');
+                livesDisplay.classList.add('text-red-800');
             } else {
-                livesDisplay.classList.add('text-green-400');
-                livesDisplay.classList.remove('text-red-400', 'text-yellow-400');
+                livesDisplay.classList.remove('text-red-800');
             }
         }
 
@@ -504,6 +485,7 @@
             currentScenarioIndex = -1;
             totalScore = 0;
             currentLives = 3; // Reset lives for a new game
+            // Removed: highScore = parseInt(localStorage.getItem('promptSorterHighScore') || '0', 10); // Reset high score from storage on game reset
             updateScoreDisplay();
             updateLivesDisplay();
             gameOverModal.style.display = 'none';
@@ -578,6 +560,12 @@
             }
 
             finalScoreDisplay.textContent = totalScore;
+            // Removed high score update and display logic
+            // if (totalScore > highScore) {
+            //     highScore = totalScore;
+            //     localStorage.setItem('promptSorterHighScore', highScore);
+            // }
+            // gameOverHighScoreDisplay.textContent = highScore;
             updateScoreDisplay(); // Update top bar score as well
         }
 
@@ -621,7 +609,7 @@
                         dropTarget.classList.add('active'); // Visual cue for drop zone
                     } else if (dropTarget.id === 'jumbled-statements-container') {
                          // Optional: Add visual cue for jumbled container
-                         dropTarget.style.outline = '2px dashed #a855f7'; /* Purple outline for jumbled container */
+                         dropTarget.style.outline = '2px dashed #4c51bf';
                     }
                 });
 
@@ -728,8 +716,8 @@
             // Correctly Placed
             if (correctStatementsCount.size > 0) {
                 const div = document.createElement('div');
-                div.className = 'bg-emerald-800 bg-opacity-30 p-3 rounded-md text-emerald-200 border border-emerald-600';
-                div.innerHTML = `<p class="font-bold text-lg">✅ Correctly Placed (${correctStatementsCount.size}/${currentJumbledStatementsData.length}):</p>`;
+                div.className = 'bg-green-50 p-3 rounded-md text-green-800 border border-green-200';
+                div.innerHTML = `<p class="font-bold">✅ Correctly Placed (${correctStatementsCount.size}/${currentJumbledStatementsData.length}):</p>`;
                 correctStatementsCount.forEach(id => {
                     const stmt = currentJumbledStatementsData.find(s => s.id === id);
                     const element = promptElementsData.find(e => e.id === stmt.correctElementId);
@@ -741,8 +729,8 @@
             // Incorrect/Missed Placements
             if (incorrectStatementsDetails.length > 0) {
                 const div = document.createElement('div');
-                div.className = 'bg-red-800 bg-opacity-30 p-3 rounded-md text-red-200 border border-red-600';
-                div.innerHTML = `<p class="font-bold text-lg">❌ Incorrect / Missed Placements (${incorrectStatementsDetails.length}):</p>`;
+                div.className = 'bg-red-50 p-3 rounded-md text-red-800 border border-red-200';
+                div.innerHTML = `<p class="font-bold">❌ Incorrect / Missed Placements (${incorrectStatementsDetails.length}):</p>`;
                 incorrectStatementsDetails.forEach(detail => {
                     const stmt = detail.stmt;
                     const correctElement = promptElementsData.find(e => e.id === detail.correctElementId);
@@ -762,8 +750,8 @@
             if (correctStatementsCount.size === currentJumbledStatementsData.length) {
                 roundScore += 50; // Bonus for completing all correctly
                 const div = document.createElement('div');
-                div.className = 'bg-indigo-800 bg-opacity-30 p-3 rounded-md text-indigo-200 border border-indigo-600 mt-4';
-                div.innerHTML = `<p class="font-bold text-lg">✨ Completion Bonus: +50 points for correctly categorizing all statements!</p>`;
+                div.className = 'bg-indigo-50 p-3 rounded-md text-indigo-800 border border-indigo-200 mt-4';
+                div.innerHTML = `<p class="font-bold">✨ Completion Bonus: +50 points for correctly categorizing all statements!</p>`;
                 debriefFeedbackContent.appendChild(div);
             }
 
@@ -772,8 +760,8 @@
                 const timeBonus = Math.floor(timeRemaining / 5); // 1 point for every 5 seconds remaining
                 roundScore += timeBonus;
                 const div = document.createElement('div');
-                div.className = 'bg-blue-800 bg-opacity-30 p-3 rounded-md text-blue-200 border border-blue-600 mt-4';
-                div.innerHTML = `<p class="font-bold text-lg">⏱️ Time Bonus: +${timeBonus} points for ${timeRemaining} seconds remaining!</p>`;
+                div.className = 'bg-blue-50 p-3 rounded-md text-blue-800 border border-blue-200 mt-4';
+                div.innerHTML = `<p class="font-bold">⏱️ Time Bonus: +${timeBonus} points for ${timeRemaining} seconds remaining!</p>`;
                 debriefFeedbackContent.appendChild(div);
             }
 
